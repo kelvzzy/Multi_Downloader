@@ -1,0 +1,99 @@
+{% load static %}
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="s01">
+        <form method="POST" id="download-form">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Download from youtube</legend>
+            </fieldset>
+            <div class="inner-form">
+                <div class="input-field first-wrap">
+                    <input id="search" name="link" type="text" placeholder="Paste your youtube link here" />
+                </div>
+                <div class="input-field third-wrap">
+                    <button class="btn-search" type="button">Download</button>
+                </div>
+            </div>
+
+
+            <div class="inner-form">
+                <div class="input-field first-wrap">
+                    {{link}}
+                </div>
+                <div class="input-field third-wrap">
+                </div>
+            </div>
+        </form>
+
+
+
+        
+    </div>
+
+
+    <script type="text/javascript">
+        // Show the loading message
+        // $('#loading').hide();
+        // Show the success message
+        // $('#sent-message').hide();
+    
+          $(document).on('submit', '#download-form', function(e) {
+        e.preventDefault();
+    
+        // Show the loading message
+        // $('#loading').show();
+    
+        // Create a reference to the form element
+        const $form = $(this);
+    
+        // Disable the form submit button to prevent multiple submissions
+        // $form.find('button[type="submit"]').prop('disabled', true);
+    
+        // Serialize the form data
+        const formData = $form.serialize();
+    
+        // Send the AJAX request
+        $.ajax({
+          type: 'POST',
+          url: "{% url 'youtube' %}",
+          data: formData,
+          success: function(data) {
+            // Hide the loading message
+            // $('#loading').hide();
+    
+            // Show the success message
+            // $('#sent-message').show();
+            console.log(data)
+            // Enable the form submit button again
+            // $form.find('button[type="submit"]').prop('disabled', false);
+          },
+          error: function(xhr, textStatus, error) {
+            console.log(xhr.statusText);
+            // Handle error response
+            // Hide the loading message
+            // $('#loading').hide();
+    
+            // Enable the form submit button again
+            // $form.find('button[type="submit"]').prop('disabled', false);
+          }
+        });
+        // this.reset();
+      });
+    
+      </script>
+    
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
